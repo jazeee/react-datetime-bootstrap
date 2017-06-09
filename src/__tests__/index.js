@@ -11,32 +11,20 @@ import DateTime from '../index';
 // Shallow Rendering
 // https://github.com/airbnb/enzyme/blob/master/docs/api/shallow.md
 describe('Shallow Rendering', () => {
-
-	it('to have three `.icon-test`s', () => {
+	it('to have one `.date-time`s', () => {
 		const wrapper = shallow(<DateTime />);
-		expect(wrapper.find('.icon-test')).to.have.length(3);
+		expect(wrapper.find('.date-time')).to.have.length(1);
 	});
-
-	it('simulates click events', () => {
-		const buttonClick = sinon.spy();
-		const wrapper = shallow(
-			<DateTime handleClick={buttonClick} />
-		);
-		wrapper.find('button').simulate('click');
-		expect(buttonClick.calledOnce).to.equal(true);
-	});
-
 });
 
 // Full DOM Rendering
 // https://github.com/airbnb/enzyme/blob/master/docs/api/mount.md
 describe('Full DOM Rendering', () => {
-
-	it('allows us to set props', () => {
-		const wrapper = mount(<DateTime bar='baz' />);
-		expect(wrapper.props().bar).to.equal('baz');
-		wrapper.setProps({ bar: 'foo' });
-		expect(wrapper.props().bar).to.equal('foo');
+	it('requires id', () => {
+		const wrapper = mount(<DateTime id='some-id' />);
+		expect(wrapper.props().id).to.equal('some-id');
+		wrapper.setProps({ id: 'new-id' });
+		expect(wrapper.props().id).to.equal('new-id');
 	});
 
 	it('calls componentDidMount', () => {
@@ -51,10 +39,33 @@ describe('Full DOM Rendering', () => {
 // Static Rendered Markup
 // https://github.com/airbnb/enzyme/blob/master/docs/api/render.md
 describe('Static Rendered Markup', () => {
-
-	it('renders three `.icon-test`s', () => {
-		const wrapper = render(<DateTime />);
-		expect(wrapper.find('.icon-test').length).to.equal(3);
+	it('renders one `.date-time`s', () => {
+		const wrapper = render(<DateTime id="id"/>);
+		expect(wrapper.find('.date-time')).to.have.length(1);
 	});
+});
 
+describe('DateTime', () => {
+	it('Test Props tooltips default', () => {
+		const tooltips = {
+			today: 'Go to today',
+			clear: 'Clear selection',
+			close: 'Close the picker',
+			selectMonth: 'Select Month',
+			prevMonth: 'Previous Month',
+			nextMonth: 'Next Month',
+			selectYear: 'Select Year',
+			prevYear: 'Previous Year',
+			nextYear: 'Next Year',
+			selectDecade: 'Select Decade',
+			prevDecade: 'Previous Decade',
+			nextDecade: 'Next Decade',
+			prevCentury: 'Previous Century',
+			nextCentury: 'Century'
+		};
+		const date = mount(
+			<DateTime id="datetimepicker" tooltips={tooltips} />
+		);
+		expect(date.props().tooltips).to.equal(tooltips);
+	});
 });
