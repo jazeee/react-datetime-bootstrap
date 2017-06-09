@@ -4,7 +4,7 @@ import {shallow, mount, render} from 'enzyme';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import MyComponent from '../index';
+import DateTime from '../index';
 
 // Demo tests
 
@@ -13,14 +13,14 @@ import MyComponent from '../index';
 describe('Shallow Rendering', () => {
 
 	it('to have three `.icon-test`s', () => {
-		const wrapper = shallow(<MyComponent />);
+		const wrapper = shallow(<DateTime />);
 		expect(wrapper.find('.icon-test')).to.have.length(3);
 	});
 
 	it('simulates click events', () => {
 		const buttonClick = sinon.spy();
 		const wrapper = shallow(
-			<MyComponent handleClick={buttonClick} />
+			<DateTime handleClick={buttonClick} />
 		);
 		wrapper.find('button').simulate('click');
 		expect(buttonClick.calledOnce).to.equal(true);
@@ -33,17 +33,17 @@ describe('Shallow Rendering', () => {
 describe('Full DOM Rendering', () => {
 
 	it('allows us to set props', () => {
-		const wrapper = mount(<MyComponent bar='baz' />);
+		const wrapper = mount(<DateTime bar='baz' />);
 		expect(wrapper.props().bar).to.equal('baz');
 		wrapper.setProps({ bar: 'foo' });
 		expect(wrapper.props().bar).to.equal('foo');
 	});
 
 	it('calls componentDidMount', () => {
-		sinon.spy(MyComponent.prototype, 'componentDidMount');
-		const wrapper = mount(<MyComponent />);
-		expect(MyComponent.prototype.componentDidMount.calledOnce).to.be.true;
-		MyComponent.prototype.componentDidMount.restore();
+		sinon.spy(DateTime.prototype, 'componentDidMount');
+		const wrapper = mount(<DateTime />);
+		expect(DateTime.prototype.componentDidMount.calledOnce).to.be.true;
+		DateTime.prototype.componentDidMount.restore();
 	});
 
 });
@@ -53,7 +53,7 @@ describe('Full DOM Rendering', () => {
 describe('Static Rendered Markup', () => {
 
 	it('renders three `.icon-test`s', () => {
-		const wrapper = render(<MyComponent />);
+		const wrapper = render(<DateTime />);
 		expect(wrapper.find('.icon-test').length).to.equal(3);
 	});
 

@@ -4,13 +4,13 @@
 
 import React from 'react';
 
-class MyComponent extends React.Component {
+class DateTime extends React.Component {
 	componentDidMount() {
 		// some logic here - we only test if the method is called
 	}
 	render() {
 		return (
-			<div className="my-component">
+			<div className="date-time">
 				<i className="icon-test"></i>
 				<i className="icon-test"></i>
 				<i className="icon-test"></i>
@@ -20,4 +20,4 @@ class MyComponent extends React.Component {
 	}
 };
 
-export default MyComponent;
+export default DateTime;
