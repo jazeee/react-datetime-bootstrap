@@ -1,4 +1,7 @@
-See https://github.com/juliancwirko/react-npm-boilerplate
+# Summary
+This package is a rework of https://github.com/iMasterAle/react-datetimepicker-bootstrap with updated React environment.
+
+Also, using https://github.com/juliancwirko/react-npm-boilerplate See below.
 
 # Boilerplate for creating React Npm packages with ES2015
 
