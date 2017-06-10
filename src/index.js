@@ -45,8 +45,6 @@ class DateTime extends React.Component {
 			'', 'success', 'warning', 'error'
 		]),
 		onChange: PropTypes.func,
-		inline: PropTypes.bool,
-		sideBySide: PropTypes.bool,
 		calendarWeeks: PropTypes.bool,
 		toolbarPlacement: PropTypes.oneOf([
 			'default', 'top', 'bottom'
@@ -109,8 +107,6 @@ class DateTime extends React.Component {
 			minDate,
 			maxDate,
 			icon,
-			inline,
-			sideBySide,
 			calendarWeeks,
 			toolbarPlacement,
 			tooltips
@@ -125,19 +121,24 @@ class DateTime extends React.Component {
 			allowInputToggle === false ? true : allowInputToggle,
 			minDate,
 			maxDate,
-			inline,
-			sideBySide,
 			calendarWeeks,
 			toolbarPlacement,
 			tooltips
 		};
-		$(`#${id}`).datetimepicker(options).on('dp.change', this.onChange);
+		this.datePicker = $(`#${id}`).datetimepicker(options).on('dp.change', this.onChange);
+	}
+	componentWillUnmount = () => {
+		if (this.datePicker) {
+			this.datePicker.destroy();
+			this.datePicker = null;
+		}
 	}
 	setRef = (ref) => {
 		this.componentRef = ref
 	}
-	onChange = () => {
-		return this.props.onChange(this.componentRef.value);
+	onChange = (event) => {
+		const {date} = event;
+		return this.props.onChange(date, {value: this.componentRef.value, date: event.date});
 	}
 	setIcon = (position) => {
 		const { iconType, icon } = this.props

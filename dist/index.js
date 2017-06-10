@@ -91,10 +91,17 @@
 				args[_key] = arguments[_key];
 			}
 
-			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.state = _this.props, _this.setRef = function (ref) {
+			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.state = _this.props, _this.componentWillUnmount = function () {
+				if (_this.datePicker) {
+					_this.datePicker.destroy();
+					_this.datePicker = null;
+				}
+			}, _this.setRef = function (ref) {
 				_this.componentRef = ref;
-			}, _this.onChange = function () {
-				return _this.props.onChange(_this.componentRef.value);
+			}, _this.onChange = function (event) {
+				var date = event.date;
+
+				return _this.props.onChange(date, { value: _this.componentRef.value, date: event.date });
 			}, _this.setIcon = function (position) {
 				var _this$props = _this.props,
 				    iconType = _this$props.iconType,
@@ -156,8 +163,6 @@
 				    minDate = _state.minDate,
 				    maxDate = _state.maxDate,
 				    icon = _state.icon,
-				    inline = _state.inline,
-				    sideBySide = _state.sideBySide,
 				    calendarWeeks = _state.calendarWeeks,
 				    toolbarPlacement = _state.toolbarPlacement,
 				    tooltips = _state.tooltips;
@@ -171,19 +176,16 @@
 					allowInputToggle: icon === undefined && allowInputToggle === false ? true : allowInputToggle,
 					minDate: minDate,
 					maxDate: maxDate,
-					inline: inline,
-					sideBySide: sideBySide,
 					calendarWeeks: calendarWeeks,
 					toolbarPlacement: toolbarPlacement,
 					tooltips: tooltips
 				};
-				(0, _jquery2.default)('#' + id).datetimepicker(options).on('dp.change', this.onChange);
+				this.datePicker = (0, _jquery2.default)('#' + id).datetimepicker(options).on('dp.change', this.onChange);
 			}
 		}, {
 			key: 'render',
 			value: function render() {
 				var _state2 = this.state,
-				    label = _state2.label,
 				    help = _state2.help,
 				    id = _state2.id,
 				    name = _state2.name,
@@ -193,18 +195,12 @@
 				    hasFeedback = _state2.hasFeedback,
 				    icon = _state2.icon;
 
-				var labelText = label ? _react2.default.createElement(
-					'label',
-					{ className: 'control-label', htmlFor: id },
-					label
-				) : null;
 				var divFeedback = hasFeedback ? 'form-group has-feedback' : 'form-group';
 				var classInput = icon === undefined ? 'col-xs-12' : 'input-group';
 				var divBsStyle = this.setBsStyleGroup();
 				return _react2.default.createElement(
 					'div',
 					{ key: id, className: 'date-time ' + divFeedback + ' ' + divBsStyle },
-					labelText,
 					_react2.default.createElement(
 						'div',
 						{ className: classInput, id: id },
@@ -249,8 +245,6 @@
 		hasFeedback: _propTypes2.default.bool,
 		bsStyle: _propTypes2.default.oneOf(['', 'success', 'warning', 'error']),
 		onChange: _propTypes2.default.func,
-		inline: _propTypes2.default.bool,
-		sideBySide: _propTypes2.default.bool,
 		calendarWeeks: _propTypes2.default.bool,
 		toolbarPlacement: _propTypes2.default.oneOf(['default', 'top', 'bottom']),
 		disabled: _propTypes2.default.bool,
