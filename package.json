@@ -4,14 +4,16 @@
   "description": "React DateTime picker with Bootstrap",
   "author": "Jaz Singh",
   "license": "MIT",
+  "main": "./dist/index.js",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/jazeee/react-datetime-bootstrap/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/jazeee/react-datetime-bootstrap",
   "keywords": [
     "react-component",
     "react"
   ],
+
   "options": {
     "mocha": "--require scripts/mocha_runner src/**/__tests__/**/*.js"
   },

@@ -180,7 +180,6 @@ class DateTime extends React.Component {
 	}
 	render() {
 		const {
-			label,
 			help,
 			id,
 			name,
@@ -190,13 +189,11 @@ class DateTime extends React.Component {
 			hasFeedback,
 			icon,
 		} = this.state
-		const labelText = (label) ? <label className="control-label" htmlFor={id}>{label}</label> : null;
 		const divFeedback = (hasFeedback) ? 'form-group has-feedback' : 'form-group';
 		const classInput = icon === undefined ? 'col-xs-12' : 'input-group';
 		const divBsStyle = this.setBsStyleGroup();
 		return (
 			<div key={id} className={`date-time ${divFeedback} ${divBsStyle}`}>
-				{labelText}
 				<div className={classInput} id={id}>
 					{this.setIcon('left')}
 					<input
