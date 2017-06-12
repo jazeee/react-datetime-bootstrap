@@ -75,6 +75,8 @@ class DateTime extends React.Component {
 			prevCentury: PropTypes.string,
 			nextCentury: PropTypes.string
 		}),
+		widgetPositioning: PropTypes.object,
+		focusOnShow: PropTypes.bool,
 	}
 	static defaultProps = {
 		id: 'datetime',
@@ -82,7 +84,7 @@ class DateTime extends React.Component {
 		viewMode: 'days',
 		allowInputToggle: false,
 		locale: 'en',
-		format: 'LLL',
+		format: 'L LTS',
 		hasFeedback: false,
 		calendarWeeks: false,
 		toolbarPlacement: 'default',
@@ -103,6 +105,8 @@ class DateTime extends React.Component {
 			prevCentury: 'Previous Century',
 			nextCentury: 'Next Century'
 		},
+		widgetPositioning: {horizontal: 'auto', vertical: 'bottom'},
+		focusOnShow: true,
 	}
 	componentDidMount() {
 		const {
@@ -120,7 +124,9 @@ class DateTime extends React.Component {
 			icon,
 			calendarWeeks,
 			toolbarPlacement,
-			tooltips
+			tooltips,
+			widgetPositioning,
+			focusOnShow,
 		} = this.props;
 		const options = {
 			locale,
@@ -133,7 +139,9 @@ class DateTime extends React.Component {
 			maxDate,
 			calendarWeeks,
 			toolbarPlacement,
-			tooltips
+			tooltips,
+			widgetPositioning,
+			focusOnShow,
 		};
 		this.datePickerElement = $(`#${id}`);
 		this.datePickerElement.datetimepicker(options).on('dp.change', this.onChange);
@@ -150,7 +158,7 @@ class DateTime extends React.Component {
 		const {id, format} = this.props;
 		if (value !== undefined) {
 			this.datePicker.date(value);
-			this.componentRef.value = moment(value).format(format);
+			this.textInputElement.value = moment(value).format(format);
 		}
 	}
 	componentWillUnmount = () => {
@@ -161,12 +169,12 @@ class DateTime extends React.Component {
 		}
 	}
 	setRef = (ref) => {
-		this.componentRef = ref
+		this.textInputElement = ref;
 	}
 	onChange = (event) => {
 		const {date} = event;
 		const isoDate = date.toISOString();
-		return this.props.onChange(isoDate, {value: this.componentRef.value, date, isoDate});
+		return this.props.onChange(isoDate, {value: this.textInputElement.value, date, isoDate});
 	}
 	setIcon = (position) => {
 		const { iconType, icon } = this.props
@@ -207,6 +215,9 @@ class DateTime extends React.Component {
 			return hasFeedback ? <span className="glyphicon form-control-feedback"/> : null;
 		}
 	}
+	selectTextElementContent = (event) => {
+		setTimeout(this.textInputElement.select.bind(this.textInputElement));
+	}
 	render() {
 		const {
 			id,
@@ -233,6 +244,7 @@ class DateTime extends React.Component {
 						required={required}
 						disabled={disabled}
 						placeholder={placeholder}
+						onFocus={this.selectTextElementContent}
 					/>
 					{this.setIcon('right')}
 				</div>

@@ -96,7 +96,6 @@
 			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillUpdate = function (nextProps) {
 				var value = nextProps.value;
 
-				console.log(value);
 				if (value !== _this.props.value) {
 					_this.updateValue(value);
 				}
@@ -106,9 +105,8 @@
 				    format = _this$props.format;
 
 				if (value !== undefined) {
-					console.log("Updating Value", value);
 					_this.datePicker.date(value);
-					_this.componentRef.value = (0, _moment2.default)(value).format(format);
+					_this.textInputElement.value = (0, _moment2.default)(value).format(format);
 				}
 			}, _this.componentWillUnmount = function () {
 				if (_this.datePicker) {
@@ -117,12 +115,12 @@
 					_this.datePickerElement = null;
 				}
 			}, _this.setRef = function (ref) {
-				_this.componentRef = ref;
+				_this.textInputElement = ref;
 			}, _this.onChange = function (event) {
 				var date = event.date;
 
 				var isoDate = date.toISOString();
-				return _this.props.onChange(isoDate, { value: _this.componentRef.value, date: date, isoDate: isoDate });
+				return _this.props.onChange(isoDate, { value: _this.textInputElement.value, date: date, isoDate: isoDate });
 			}, _this.setIcon = function (position) {
 				var _this$props2 = _this.props,
 				    iconType = _this$props2.iconType,
@@ -166,6 +164,8 @@
 					default:
 						return hasFeedback ? _react2.default.createElement('span', { className: 'glyphicon form-control-feedback' }) : null;
 				}
+			}, _this.selectTextElementContent = function (event) {
+				setTimeout(_this.textInputElement.select.bind(_this.textInputElement));
 			}, _temp), _possibleConstructorReturn(_this, _ret);
 		}
 
@@ -187,7 +187,9 @@
 				    icon = _props.icon,
 				    calendarWeeks = _props.calendarWeeks,
 				    toolbarPlacement = _props.toolbarPlacement,
-				    tooltips = _props.tooltips;
+				    tooltips = _props.tooltips,
+				    widgetPositioning = _props.widgetPositioning,
+				    focusOnShow = _props.focusOnShow;
 
 				var options = {
 					locale: locale,
@@ -200,7 +202,9 @@
 					maxDate: maxDate,
 					calendarWeeks: calendarWeeks,
 					toolbarPlacement: toolbarPlacement,
-					tooltips: tooltips
+					tooltips: tooltips,
+					widgetPositioning: widgetPositioning,
+					focusOnShow: focusOnShow
 				};
 				this.datePickerElement = (0, _jquery2.default)('#' + id);
 				this.datePickerElement.datetimepicker(options).on('dp.change', this.onChange);
@@ -237,7 +241,8 @@
 							name: name,
 							required: required,
 							disabled: disabled,
-							placeholder: placeholder
+							placeholder: placeholder,
+							onFocus: this.selectTextElementContent
 						}),
 						this.setIcon('right')
 					),
@@ -293,7 +298,9 @@
 			nextDecade: _propTypes2.default.string,
 			prevCentury: _propTypes2.default.string,
 			nextCentury: _propTypes2.default.string
-		})
+		}),
+		widgetPositioning: _propTypes2.default.object,
+		focusOnShow: _propTypes2.default.bool
 	};
 	DateTime.defaultProps = {
 		id: 'datetime',
@@ -301,7 +308,7 @@
 		viewMode: 'days',
 		allowInputToggle: false,
 		locale: 'en',
-		format: 'LLL',
+		format: 'L LTS',
 		hasFeedback: false,
 		calendarWeeks: false,
 		toolbarPlacement: 'default',
@@ -321,7 +328,9 @@
 			nextDecade: 'Next Decade',
 			prevCentury: 'Previous Century',
 			nextCentury: 'Next Century'
-		}
+		},
+		widgetPositioning: { horizontal: 'auto', vertical: 'bottom' },
+		focusOnShow: true
 	};
 	;
 
