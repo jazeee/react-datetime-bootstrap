@@ -7,14 +7,28 @@ import 'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'
 class DateTime extends React.Component {
 	static propTypes = {
 		id: PropTypes.string.isRequired,
+		//DateTime Input properties
 		iconType: PropTypes.string,
 		icon: PropTypes.oneOf([
 			'right',
 			'left'
 		]),
 		placeholder: PropTypes.string,
-		locale: PropTypes.string,
+		hasFeedback: PropTypes.bool,
+		bsStyle: PropTypes.oneOf([
+			'', 'success', 'warning', 'error'
+		]),
+		onChange: PropTypes.func,
+		disabled: PropTypes.bool,
+		helpBlock: PropTypes.any,
+		value: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.object,
+		]),
+
+		//picker properties
 		format: PropTypes.string,
+		locale: PropTypes.string,
 		minDate: PropTypes.arrayOf(
 			PropTypes.oneOfType([
 				PropTypes.string,
@@ -40,16 +54,10 @@ class DateTime extends React.Component {
 			'decades', 'years', 'months', 'days'
 		]),
 		allowInputToggle: PropTypes.bool,
-		hasFeedback: PropTypes.bool,
-		bsStyle: PropTypes.oneOf([
-			'', 'success', 'warning', 'error'
-		]),
-		onChange: PropTypes.func,
 		calendarWeeks: PropTypes.bool,
 		toolbarPlacement: PropTypes.oneOf([
 			'default', 'top', 'bottom'
 		]),
-		disabled: PropTypes.bool,
 		tooltips: PropTypes.shape({
 			today: PropTypes.string,
 			clear: PropTypes.string,
@@ -65,9 +73,10 @@ class DateTime extends React.Component {
 			nextDecade: PropTypes.string,
 			prevCentury: PropTypes.string,
 			nextCentury: PropTypes.string
-		})
+		}),
 	}
 	static defaultProps = {
+		id: 'datetime',
 		iconType: 'calendar',
 		viewMode: 'days',
 		allowInputToggle: false,
@@ -75,7 +84,7 @@ class DateTime extends React.Component {
 		hasFeedback: false,
 		calendarWeeks: false,
 		toolbarPlacement: 'default',
-		onChange:() => {},
+		onChange: console.log,
 		tooltips: {
 			today: 'Go to today',
 			clear: 'Clear selection',
@@ -91,12 +100,12 @@ class DateTime extends React.Component {
 			nextDecade: 'Next Decade',
 			prevCentury: 'Previous Century',
 			nextCentury: 'Next Century'
-		}
+		},
 	}
-	state = this.props
 	componentDidMount() {
 		const {
 			id,
+			value,
 			locale,
 			format,
 			disabledDates,
@@ -110,22 +119,26 @@ class DateTime extends React.Component {
 			calendarWeeks,
 			toolbarPlacement,
 			tooltips
-		} = this.state;
+		} = this.props;
 		const options = {
 			locale,
 			format,
 			disabledDates,
 			daysOfWeekDisabled,
 			viewMode,
-			allowInputToggle: icon === undefined &&
-			allowInputToggle === false ? true : allowInputToggle,
+			allowInputToggle: icon === undefined && allowInputToggle === false ? true : allowInputToggle,
 			minDate,
 			maxDate,
 			calendarWeeks,
 			toolbarPlacement,
 			tooltips
 		};
-		this.datePicker = $(`#${id}`).datetimepicker(options).on('dp.change', this.onChange);
+		this.datePicker = $(`#${id}`).datetimepicker(options);
+		this.datePicker.on('dp.change', this.onChange);
+		console.log(value);
+		if (value !== undefined) {
+			$(`#${id}`).data("DateTimePicker").date(value);
+		}
 	}
 	componentWillUnmount = () => {
 		if (this.datePicker) {
@@ -153,8 +166,8 @@ class DateTime extends React.Component {
 			return null
 		}
 	}
-	setBsStyleGroup = () => {
-		const { bsStyle } = this.state
+	getBsStyle = () => {
+		const { bsStyle } = this.props
 		switch (bsStyle) {
 		case 'success':
 			return 'has-success'
@@ -167,7 +180,7 @@ class DateTime extends React.Component {
 		}
 	}
 	getFeedbackIcon = () => {
-		const { bsStyle, hasFeedback } = this.state;
+		const { bsStyle, hasFeedback } = this.props;
 		switch (bsStyle) {
 		case 'success':
 			return hasFeedback ? <span className="glyphicon form-control-feedback glyphicon-ok"/> : null;
@@ -181,18 +194,18 @@ class DateTime extends React.Component {
 	}
 	render() {
 		const {
-			help,
 			id,
 			name,
 			placeholder,
+			helpBlock,
 			disabled,
 			required,
 			hasFeedback,
 			icon,
-		} = this.state
-		const divFeedback = (hasFeedback) ? 'form-group has-feedback' : 'form-group';
+		} = this.props;
+		const divFeedback = `form-group ${hasFeedback}`;
 		const classInput = icon === undefined ? 'col-xs-12' : 'input-group';
-		const divBsStyle = this.setBsStyleGroup();
+		const divBsStyle = this.getBsStyle();
 		return (
 			<div key={id} className={`date-time ${divFeedback} ${divBsStyle}`}>
 				<div className={classInput} id={id}>
@@ -210,7 +223,7 @@ class DateTime extends React.Component {
 				</div>
 				{this.getFeedbackIcon()}
 				<span className="help-block">
-					{help}
+					{helpBlock}
 				</span>
 			</div>
 		)

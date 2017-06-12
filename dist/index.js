@@ -91,7 +91,7 @@
 				args[_key] = arguments[_key];
 			}
 
-			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.state = _this.props, _this.componentWillUnmount = function () {
+			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillUnmount = function () {
 				if (_this.datePicker) {
 					_this.datePicker.destroy();
 					_this.datePicker = null;
@@ -117,8 +117,8 @@
 					default:
 						return null;
 				}
-			}, _this.setBsStyleGroup = function () {
-				var bsStyle = _this.state.bsStyle;
+			}, _this.getBsStyle = function () {
+				var bsStyle = _this.props.bsStyle;
 
 				switch (bsStyle) {
 					case 'success':
@@ -131,9 +131,9 @@
 						return '';
 				}
 			}, _this.getFeedbackIcon = function () {
-				var _this$state = _this.state,
-				    bsStyle = _this$state.bsStyle,
-				    hasFeedback = _this$state.hasFeedback;
+				var _this$props2 = _this.props,
+				    bsStyle = _this$props2.bsStyle,
+				    hasFeedback = _this$props2.hasFeedback;
 
 				switch (bsStyle) {
 					case 'success':
@@ -151,21 +151,22 @@
 		_createClass(DateTime, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				var _state = this.state,
-				    id = _state.id,
-				    locale = _state.locale,
-				    format = _state.format,
-				    disabledDates = _state.disabledDates,
-				    daysOfWeekDisabled = _state.daysOfWeekDisabled,
-				    viewMode = _state.viewMode,
-				    allowInputToggle = _state.allowInputToggle,
-				    onChange = _state.onChange,
-				    minDate = _state.minDate,
-				    maxDate = _state.maxDate,
-				    icon = _state.icon,
-				    calendarWeeks = _state.calendarWeeks,
-				    toolbarPlacement = _state.toolbarPlacement,
-				    tooltips = _state.tooltips;
+				var _props = this.props,
+				    id = _props.id,
+				    value = _props.value,
+				    locale = _props.locale,
+				    format = _props.format,
+				    disabledDates = _props.disabledDates,
+				    daysOfWeekDisabled = _props.daysOfWeekDisabled,
+				    viewMode = _props.viewMode,
+				    allowInputToggle = _props.allowInputToggle,
+				    onChange = _props.onChange,
+				    minDate = _props.minDate,
+				    maxDate = _props.maxDate,
+				    icon = _props.icon,
+				    calendarWeeks = _props.calendarWeeks,
+				    toolbarPlacement = _props.toolbarPlacement,
+				    tooltips = _props.tooltips;
 
 				var options = {
 					locale: locale,
@@ -180,24 +181,29 @@
 					toolbarPlacement: toolbarPlacement,
 					tooltips: tooltips
 				};
-				this.datePicker = (0, _jquery2.default)('#' + id).datetimepicker(options).on('dp.change', this.onChange);
+				this.datePicker = (0, _jquery2.default)('#' + id).datetimepicker(options);
+				this.datePicker.on('dp.change', this.onChange);
+				console.log(value);
+				if (value !== undefined) {
+					(0, _jquery2.default)('#' + id).data("DateTimePicker").date(value);
+				}
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var _state2 = this.state,
-				    help = _state2.help,
-				    id = _state2.id,
-				    name = _state2.name,
-				    placeholder = _state2.placeholder,
-				    disabled = _state2.disabled,
-				    required = _state2.required,
-				    hasFeedback = _state2.hasFeedback,
-				    icon = _state2.icon;
+				var _props2 = this.props,
+				    id = _props2.id,
+				    name = _props2.name,
+				    placeholder = _props2.placeholder,
+				    helpBlock = _props2.helpBlock,
+				    disabled = _props2.disabled,
+				    required = _props2.required,
+				    hasFeedback = _props2.hasFeedback,
+				    icon = _props2.icon;
 
-				var divFeedback = hasFeedback ? 'form-group has-feedback' : 'form-group';
+				var divFeedback = 'form-group ' + hasFeedback;
 				var classInput = icon === undefined ? 'col-xs-12' : 'input-group';
-				var divBsStyle = this.setBsStyleGroup();
+				var divBsStyle = this.getBsStyle();
 				return _react2.default.createElement(
 					'div',
 					{ key: id, className: 'date-time ' + divFeedback + ' ' + divBsStyle },
@@ -220,7 +226,7 @@
 					_react2.default.createElement(
 						'span',
 						{ className: 'help-block' },
-						help
+						helpBlock
 					)
 				);
 			}
@@ -231,23 +237,28 @@
 
 	DateTime.propTypes = {
 		id: _propTypes2.default.string.isRequired,
+		//DateTime Input properties
 		iconType: _propTypes2.default.string,
 		icon: _propTypes2.default.oneOf(['right', 'left']),
 		placeholder: _propTypes2.default.string,
-		locale: _propTypes2.default.string,
+		hasFeedback: _propTypes2.default.bool,
+		bsStyle: _propTypes2.default.oneOf(['', 'success', 'warning', 'error']),
+		onChange: _propTypes2.default.func,
+		disabled: _propTypes2.default.bool,
+		helpBlock: _propTypes2.default.any,
+		value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+
+		//picker properties
 		format: _propTypes2.default.string,
+		locale: _propTypes2.default.string,
 		minDate: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
 		maxDate: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
 		disabledDates: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
 		daysOfWeekDisabled: _propTypes2.default.arrayOf(_propTypes2.default.number),
 		viewMode: _propTypes2.default.oneOf(['decades', 'years', 'months', 'days']),
 		allowInputToggle: _propTypes2.default.bool,
-		hasFeedback: _propTypes2.default.bool,
-		bsStyle: _propTypes2.default.oneOf(['', 'success', 'warning', 'error']),
-		onChange: _propTypes2.default.func,
 		calendarWeeks: _propTypes2.default.bool,
 		toolbarPlacement: _propTypes2.default.oneOf(['default', 'top', 'bottom']),
-		disabled: _propTypes2.default.bool,
 		tooltips: _propTypes2.default.shape({
 			today: _propTypes2.default.string,
 			clear: _propTypes2.default.string,
@@ -266,6 +277,7 @@
 		})
 	};
 	DateTime.defaultProps = {
+		id: 'datetime',
 		iconType: 'calendar',
 		viewMode: 'days',
 		allowInputToggle: false,
@@ -273,7 +285,7 @@
 		hasFeedback: false,
 		calendarWeeks: false,
 		toolbarPlacement: 'default',
-		onChange: function onChange() {},
+		onChange: console.log,
 		tooltips: {
 			today: 'Go to today',
 			clear: 'Clear selection',
