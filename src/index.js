@@ -142,7 +142,6 @@ class DateTime extends React.Component {
 	}
 	componentWillUpdate = (nextProps) => {
 		const {value} = nextProps;
-		console.log(value);
 		if (value !== this.props.value) {
 			this.updateValue(value);
 		}
@@ -150,7 +149,6 @@ class DateTime extends React.Component {
 	updateValue = (value) => {
 		const {id, format} = this.props;
 		if (value !== undefined) {
-			console.log("Updating Value", value);
 			this.datePicker.date(value);
 			this.componentRef.value = moment(value).format(format);
 		}
