@@ -1,16 +1,16 @@
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
-		define(['exports', 'react', 'prop-types', 'jquery', 'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'], factory);
+		define(['exports', 'react', 'prop-types', 'jquery', 'moment', 'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'], factory);
 	} else if (typeof exports !== "undefined") {
-		factory(exports, require('react'), require('prop-types'), require('jquery'), require('eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'));
+		factory(exports, require('react'), require('prop-types'), require('jquery'), require('moment'), require('eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'));
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod.exports, global.react, global.propTypes, global.jquery, global.bootstrapDatetimepicker);
+		factory(mod.exports, global.react, global.propTypes, global.jquery, global.moment, global.bootstrapDatetimepicker);
 		global.index = mod.exports;
 	}
-})(this, function (exports, _react, _propTypes, _jquery) {
+})(this, function (exports, _react, _propTypes, _jquery, _moment) {
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -22,6 +22,8 @@
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _moment2 = _interopRequireDefault(_moment);
 
 	function _interopRequireDefault(obj) {
 		return obj && obj.__esModule ? obj : {
@@ -91,21 +93,40 @@
 				args[_key] = arguments[_key];
 			}
 
-			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillUnmount = function () {
+			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillUpdate = function (nextProps) {
+				var value = nextProps.value;
+
+				console.log(value);
+				if (value !== _this.props.value) {
+					_this.updateValue(value);
+				}
+			}, _this.updateValue = function (value) {
+				var _this$props = _this.props,
+				    id = _this$props.id,
+				    format = _this$props.format;
+
+				if (value !== undefined) {
+					console.log("Updating Value", value);
+					_this.datePicker.date(value);
+					_this.componentRef.value = (0, _moment2.default)(value).format(format);
+				}
+			}, _this.componentWillUnmount = function () {
 				if (_this.datePicker) {
 					_this.datePicker.destroy();
 					_this.datePicker = null;
+					_this.datePickerElement = null;
 				}
 			}, _this.setRef = function (ref) {
 				_this.componentRef = ref;
 			}, _this.onChange = function (event) {
 				var date = event.date;
 
-				return _this.props.onChange(date, { value: _this.componentRef.value, date: event.date });
+				var isoDate = date.toISOString();
+				return _this.props.onChange(isoDate, { value: _this.componentRef.value, date: date, isoDate: isoDate });
 			}, _this.setIcon = function (position) {
-				var _this$props = _this.props,
-				    iconType = _this$props.iconType,
-				    icon = _this$props.icon;
+				var _this$props2 = _this.props,
+				    iconType = _this$props2.iconType,
+				    icon = _this$props2.icon;
 
 				switch (true) {
 					case position === icon:
@@ -131,9 +152,9 @@
 						return '';
 				}
 			}, _this.getFeedbackIcon = function () {
-				var _this$props2 = _this.props,
-				    bsStyle = _this$props2.bsStyle,
-				    hasFeedback = _this$props2.hasFeedback;
+				var _this$props3 = _this.props,
+				    bsStyle = _this$props3.bsStyle,
+				    hasFeedback = _this$props3.hasFeedback;
 
 				switch (bsStyle) {
 					case 'success':
@@ -181,12 +202,10 @@
 					toolbarPlacement: toolbarPlacement,
 					tooltips: tooltips
 				};
-				this.datePicker = (0, _jquery2.default)('#' + id).datetimepicker(options);
-				this.datePicker.on('dp.change', this.onChange);
-				console.log(value);
-				if (value !== undefined) {
-					(0, _jquery2.default)('#' + id).data("DateTimePicker").date(value);
-				}
+				this.datePickerElement = (0, _jquery2.default)('#' + id);
+				this.datePickerElement.datetimepicker(options).on('dp.change', this.onChange);
+				this.datePicker = this.datePickerElement.data("DateTimePicker");
+				this.updateValue(value);
 			}
 		}, {
 			key: 'render',
@@ -282,6 +301,7 @@
 		viewMode: 'days',
 		allowInputToggle: false,
 		locale: 'en',
+		format: 'LLL',
 		hasFeedback: false,
 		calendarWeeks: false,
 		toolbarPlacement: 'default',

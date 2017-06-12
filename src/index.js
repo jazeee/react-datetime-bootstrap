@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery'
 import 'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'
+import moment from 'moment';
 
 class DateTime extends React.Component {
 	static propTypes = {
@@ -81,6 +82,7 @@ class DateTime extends React.Component {
 		viewMode: 'days',
 		allowInputToggle: false,
 		locale: 'en',
+		format: 'LLL',
 		hasFeedback: false,
 		calendarWeeks: false,
 		toolbarPlacement: 'default',
@@ -133,17 +135,31 @@ class DateTime extends React.Component {
 			toolbarPlacement,
 			tooltips
 		};
-		this.datePicker = $(`#${id}`).datetimepicker(options);
-		this.datePicker.on('dp.change', this.onChange);
+		this.datePickerElement = $(`#${id}`);
+		this.datePickerElement.datetimepicker(options).on('dp.change', this.onChange);
+		this.datePicker = this.datePickerElement.data("DateTimePicker");
+		this.updateValue(value);
+	}
+	componentWillUpdate = (nextProps) => {
+		const {value} = nextProps;
 		console.log(value);
+		if (value !== this.props.value) {
+			this.updateValue(value);
+		}
+	}
+	updateValue = (value) => {
+		const {id, format} = this.props;
 		if (value !== undefined) {
-			$(`#${id}`).data("DateTimePicker").date(value);
+			console.log("Updating Value", value);
+			this.datePicker.date(value);
+			this.componentRef.value = moment(value).format(format);
 		}
 	}
 	componentWillUnmount = () => {
 		if (this.datePicker) {
 			this.datePicker.destroy();
 			this.datePicker = null;
+			this.datePickerElement = null;
 		}
 	}
 	setRef = (ref) => {
@@ -151,7 +167,8 @@ class DateTime extends React.Component {
 	}
 	onChange = (event) => {
 		const {date} = event;
-		return this.props.onChange(date, {value: this.componentRef.value, date: event.date});
+		const isoDate = date.toISOString();
+		return this.props.onChange(isoDate, {value: this.componentRef.value, date, isoDate});
 	}
 	setIcon = (position) => {
 		const { iconType, icon } = this.props
