@@ -31,6 +31,20 @@
 		};
 	}
 
+	var _extends = Object.assign || function (target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+
+			for (var key in source) {
+				if (Object.prototype.hasOwnProperty.call(source, key)) {
+					target[key] = source[key];
+				}
+			}
+		}
+
+		return target;
+	};
+
 	function _classCallCheck(instance, Constructor) {
 		if (!(instance instanceof Constructor)) {
 			throw new TypeError("Cannot call a class as a function");
@@ -79,6 +93,35 @@
 		if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
+	var defaultPickerOptions = {
+		viewMode: 'days',
+		allowInputToggle: true,
+		locale: 'en',
+		format: 'L LTS',
+		calendarWeeks: false,
+		toolbarPlacement: 'default',
+		tooltips: {
+			today: 'Go to today',
+			clear: 'Clear selection',
+			close: 'Close the picker',
+			selectMonth: 'Select Month',
+			prevMonth: 'Previous Month',
+			nextMonth: 'Next Month',
+			selectYear: 'Select Year',
+			prevYear: 'Previous Year',
+			nextYear: 'Next Year',
+			selectDecade: 'Select Decade',
+			prevDecade: 'Previous Decade',
+			nextDecade: 'Next Decade',
+			prevCentury: 'Previous Century',
+			nextCentury: 'Next Century'
+		},
+		widgetPositioning: { horizontal: 'auto', vertical: 'bottom' },
+		focusOnShow: true
+	};
+
+	var nextId = 0;
+
 	var DateTime = function (_React$Component) {
 		_inherits(DateTime, _React$Component);
 
@@ -100,9 +143,7 @@
 					_this.updateValue(value);
 				}
 			}, _this.updateValue = function (value) {
-				var _this$props = _this.props,
-				    id = _this$props.id,
-				    format = _this$props.format;
+				var format = _this.props.pickerOptions.format;
 
 				if (value !== undefined) {
 					_this.datePicker.date(value);
@@ -113,6 +154,7 @@
 					_this.datePicker.destroy();
 					_this.datePicker = null;
 					_this.datePickerElement = null;
+					_this.textInputElement = null;
 				}
 			}, _this.setRef = function (ref) {
 				_this.textInputElement = ref;
@@ -121,93 +163,29 @@
 
 				var isoDate = date.toISOString();
 				return _this.props.onChange(isoDate, { value: _this.textInputElement.value, date: date, isoDate: isoDate });
-			}, _this.setIcon = function (position) {
-				var _this$props2 = _this.props,
-				    iconType = _this$props2.iconType,
-				    icon = _this$props2.icon;
-
-				switch (true) {
-					case position === icon:
-						return _react2.default.createElement(
-							'span',
-							{ className: 'input-group-addon' },
-							_react2.default.createElement('span', { className: 'glyphicon glyphicon-' + iconType })
-						);
-					default:
-						return null;
-				}
-			}, _this.getBsStyle = function () {
-				var bsStyle = _this.props.bsStyle;
-
-				switch (bsStyle) {
-					case 'success':
-						return 'has-success';
-					case 'warning':
-						return 'has-warning';
-					case 'error':
-						return 'has-error';
-					default:
-						return '';
-				}
-			}, _this.getFeedbackIcon = function () {
-				var _this$props3 = _this.props,
-				    bsStyle = _this$props3.bsStyle,
-				    hasFeedback = _this$props3.hasFeedback;
-
-				switch (bsStyle) {
-					case 'success':
-						return hasFeedback ? _react2.default.createElement('span', { className: 'glyphicon form-control-feedback glyphicon-ok' }) : null;
-					case 'warning':
-						return hasFeedback ? _react2.default.createElement('span', { className: 'glyphicon form-control-feedback glyphicon-warning-sign' }) : null;
-					case 'error':
-						return hasFeedback ? _react2.default.createElement('span', { className: 'glyphicon form-control-feedback glyphicon-remove' }) : null;
-					default:
-						return hasFeedback ? _react2.default.createElement('span', { className: 'glyphicon form-control-feedback' }) : null;
-				}
 			}, _this.selectTextElementContent = function (event) {
-				setTimeout(_this.textInputElement.select.bind(_this.textInputElement));
+				setTimeout(event.target.select.bind(event.target));
 			}, _temp), _possibleConstructorReturn(_this, _ret);
 		}
 
 		_createClass(DateTime, [{
+			key: 'componentWillMount',
+			value: function componentWillMount() {
+				this.id = DateTime.nextId++;
+			}
+		}, {
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				var _props = this.props,
-				    id = _props.id,
 				    value = _props.value,
-				    locale = _props.locale,
-				    format = _props.format,
-				    disabledDates = _props.disabledDates,
-				    daysOfWeekDisabled = _props.daysOfWeekDisabled,
-				    viewMode = _props.viewMode,
-				    allowInputToggle = _props.allowInputToggle,
-				    onChange = _props.onChange,
-				    minDate = _props.minDate,
-				    maxDate = _props.maxDate,
-				    icon = _props.icon,
-				    calendarWeeks = _props.calendarWeeks,
-				    toolbarPlacement = _props.toolbarPlacement,
-				    tooltips = _props.tooltips,
-				    widgetPositioning = _props.widgetPositioning,
-				    focusOnShow = _props.focusOnShow;
+				    onChange = _props.onChange;
+				var id = this.id;
+				var pickerOptions = this.props.pickerOptions;
 
-				var options = {
-					locale: locale,
-					format: format,
-					disabledDates: disabledDates,
-					daysOfWeekDisabled: daysOfWeekDisabled,
-					viewMode: viewMode,
-					allowInputToggle: icon === undefined && allowInputToggle === false ? true : allowInputToggle,
-					minDate: minDate,
-					maxDate: maxDate,
-					calendarWeeks: calendarWeeks,
-					toolbarPlacement: toolbarPlacement,
-					tooltips: tooltips,
-					widgetPositioning: widgetPositioning,
-					focusOnShow: focusOnShow
-				};
+				pickerOptions = _extends({}, defaultPickerOptions, pickerOptions);
 				this.datePickerElement = (0, _jquery2.default)('#' + id);
-				this.datePickerElement.datetimepicker(options).on('dp.change', this.onChange);
+				console.log(this.datePickerElement); //##############FIXME
+				this.datePickerElement.datetimepicker(pickerOptions).on('dp.change', this.onChange);
 				this.datePicker = this.datePickerElement.data("DateTimePicker");
 				this.updateValue(value);
 			}
@@ -215,43 +193,29 @@
 			key: 'render',
 			value: function render() {
 				var _props2 = this.props,
-				    id = _props2.id,
 				    name = _props2.name,
 				    placeholder = _props2.placeholder,
 				    helpBlock = _props2.helpBlock,
 				    disabled = _props2.disabled,
 				    required = _props2.required,
-				    hasFeedback = _props2.hasFeedback,
-				    icon = _props2.icon;
+				    bsStyle = _props2.bsStyle;
+				var id = this.id;
 
-				var divFeedback = 'form-group ' + hasFeedback;
-				var classInput = icon === undefined ? 'col-xs-12' : 'input-group';
-				var divBsStyle = this.getBsStyle();
+				// Input needs to be inside a position relative element for datetimepicker to work.
 				return _react2.default.createElement(
 					'div',
-					{ key: id, className: 'date-time ' + divFeedback + ' ' + divBsStyle },
-					_react2.default.createElement(
-						'div',
-						{ className: classInput, id: id },
-						this.setIcon('left'),
-						_react2.default.createElement('input', {
-							ref: this.setRef,
-							className: 'form-control',
-							type: 'text',
-							name: name,
-							required: required,
-							disabled: disabled,
-							placeholder: placeholder,
-							onFocus: this.selectTextElementContent
-						}),
-						this.setIcon('right')
-					),
-					this.getFeedbackIcon(),
-					_react2.default.createElement(
-						'span',
-						{ className: 'help-block' },
-						helpBlock
-					)
+					{ style: { position: "relative" } },
+					_react2.default.createElement('input', {
+						id: id,
+						ref: this.setRef,
+						className: 'has-' + bsStyle + ' form-control date-time',
+						type: 'text',
+						name: name,
+						required: required,
+						disabled: disabled,
+						placeholder: placeholder,
+						onFocus: this.selectTextElementContent
+					})
 				);
 			}
 		}]);
@@ -260,10 +224,6 @@
 	}(_react2.default.Component);
 
 	DateTime.propTypes = {
-		id: _propTypes2.default.string.isRequired,
-		//DateTime Input properties
-		iconType: _propTypes2.default.string,
-		icon: _propTypes2.default.oneOf(['right', 'left']),
 		placeholder: _propTypes2.default.string,
 		hasFeedback: _propTypes2.default.bool,
 		bsStyle: _propTypes2.default.oneOf(['', 'success', 'warning', 'error']),
@@ -272,65 +232,43 @@
 		helpBlock: _propTypes2.default.any,
 		value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
 
-		//picker properties
-		format: _propTypes2.default.string,
-		locale: _propTypes2.default.string,
-		minDate: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
-		maxDate: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
-		disabledDates: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
-		daysOfWeekDisabled: _propTypes2.default.arrayOf(_propTypes2.default.number),
-		viewMode: _propTypes2.default.oneOf(['decades', 'years', 'months', 'days']),
-		allowInputToggle: _propTypes2.default.bool,
-		calendarWeeks: _propTypes2.default.bool,
-		toolbarPlacement: _propTypes2.default.oneOf(['default', 'top', 'bottom']),
-		tooltips: _propTypes2.default.shape({
-			today: _propTypes2.default.string,
-			clear: _propTypes2.default.string,
-			close: _propTypes2.default.string,
-			selectMonth: _propTypes2.default.string,
-			prevMonth: _propTypes2.default.string,
-			nextMonth: _propTypes2.default.string,
-			selectYear: _propTypes2.default.string,
-			prevYear: _propTypes2.default.string,
-			nextYear: _propTypes2.default.string,
-			selectDecade: _propTypes2.default.string,
-			prevDecade: _propTypes2.default.string,
-			nextDecade: _propTypes2.default.string,
-			prevCentury: _propTypes2.default.string,
-			nextCentury: _propTypes2.default.string
-		}),
-		widgetPositioning: _propTypes2.default.object,
-		focusOnShow: _propTypes2.default.bool
+		pickerOptions: _propTypes2.default.shape({
+			format: _propTypes2.default.string,
+			locale: _propTypes2.default.string,
+			minDate: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
+			maxDate: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
+			disabledDates: _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object])),
+			daysOfWeekDisabled: _propTypes2.default.arrayOf(_propTypes2.default.number),
+			viewMode: _propTypes2.default.oneOf(['decades', 'years', 'months', 'days']),
+			allowInputToggle: _propTypes2.default.bool,
+			calendarWeeks: _propTypes2.default.bool,
+			toolbarPlacement: _propTypes2.default.oneOf(['default', 'top', 'bottom']),
+			tooltips: _propTypes2.default.shape({
+				today: _propTypes2.default.string,
+				clear: _propTypes2.default.string,
+				close: _propTypes2.default.string,
+				selectMonth: _propTypes2.default.string,
+				prevMonth: _propTypes2.default.string,
+				nextMonth: _propTypes2.default.string,
+				selectYear: _propTypes2.default.string,
+				prevYear: _propTypes2.default.string,
+				nextYear: _propTypes2.default.string,
+				selectDecade: _propTypes2.default.string,
+				prevDecade: _propTypes2.default.string,
+				nextDecade: _propTypes2.default.string,
+				prevCentury: _propTypes2.default.string,
+				nextCentury: _propTypes2.default.string
+			}),
+			widgetPositioning: _propTypes2.default.object,
+			focusOnShow: _propTypes2.default.bool
+		})
 	};
+	DateTime.nextId = 0;
 	DateTime.defaultProps = {
-		id: 'datetime',
-		iconType: 'calendar',
-		viewMode: 'days',
-		allowInputToggle: false,
-		locale: 'en',
-		format: 'L LTS',
+		id: "react-datetime-bootstrap",
 		hasFeedback: false,
-		calendarWeeks: false,
-		toolbarPlacement: 'default',
 		onChange: console.log,
-		tooltips: {
-			today: 'Go to today',
-			clear: 'Clear selection',
-			close: 'Close the picker',
-			selectMonth: 'Select Month',
-			prevMonth: 'Previous Month',
-			nextMonth: 'Next Month',
-			selectYear: 'Select Year',
-			prevYear: 'Previous Year',
-			nextYear: 'Next Year',
-			selectDecade: 'Select Decade',
-			prevDecade: 'Previous Decade',
-			nextDecade: 'Next Decade',
-			prevCentury: 'Previous Century',
-			nextCentury: 'Next Century'
-		},
-		widgetPositioning: { horizontal: 'auto', vertical: 'bottom' },
-		focusOnShow: true
+		pickerOptions: _extends({}, defaultPickerOptions)
 	};
 	;
 

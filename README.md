@@ -2,7 +2,9 @@
 This package is a rework of an existing [React Datetime picker](https://github.com/iMasterAle/react-datetimepicker-bootstrap).
 Some changes:
 1. Updated to latest React environment.
-1. ISO 8601 datetime (or moment) in (optional), ISO 8601 datetime out.
+1. moment compatible datetime (or moment) as input (optionally undefined for today's date)
+1. ISO 8601 datetime output via `onChange` property.
+1. Also, can get the moment object, input text via second parameters of `onChange`
 
 For development, using [React NPM Boilerplate](https://github.com/juliancwirko/react-npm-boilerplate). See below.
 
@@ -20,35 +22,28 @@ Using [npm](https://npmjs.com):
 $ npm install --save react-datetimepicker-bootstrap
 ```
 
-Since date time is a complex topic, this package takes an ISO 8601 formatted datetime and outputs an ISO 8601 formatted datetime.
+## Date and Time
+Since date time is a complex topic, this package takes a momentjs compatible formatted datetime and outputs an ISO 8601 formatted datetime.
 It uses momentjs to handle date time.
 
-Minimum usage:
+## Example usage:
+
 ```js
 import DateTime from 'react-datetime-bootstrap';
 
 export default MyRenderer = (props) => (
+	<h4>Minimum Usage to pick today date</h4>
 	<DateTime />
+	<h4>Provide a value</h4>
+	<DateTime value="2017-04-20"/>
+	<h4>Format (See momentjs for available formats)</h4>
+	<DateTime pickerOptions={{format:"LL"}} value="2017-04-20"/>
+	<h4>Time Only</h4>
+	<DateTime pickerOptions={{format:"LTS"}}/>
 );
 ```
-## Props component:
-### `id`:
-- __Type:__ _string_.
-- __isRequired:__ ✔
-- __DefaultValue:__ _`undefined`_
-- __Description:__ component id.
 
-### `icon`:
-- __Type:__ _string_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`undefined`_
-- __Description:__ The position of the icon, accept: `left` or `right`.
-
-### `iconType`:
-- __Type:__ _string_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`calendar`_
-- __Description:__ View the bootstrap [iconSet](http://getbootstrap.com/components/#glyphicons).
+## Props:
 
 ### `placeholder`:
 - __Type:__ _string_.
@@ -56,95 +51,11 @@ export default MyRenderer = (props) => (
 - __DefaultValue:__ _`undefined`_
 - __Description:__ The simple placeholder input.
 
-### `locale`:
-- __Type:__ _string_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`en`_
-- __Description:__ Translate the calendar `e.g.: 'it', 'en', 'ru', ...` .
-
-### `format`:
-- __Type:__ _string_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`moment().format()`_
-- __Description:__ Set the format date view e.g: `D/M/YYYY`.
-
-### `minDate`:
-- __Type:__ _arrayOf_(_string_) or _object_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`undefined`_
-- __Description:__ Set the minDate start in the calendar, accept: `moment()` or `new Date()`.
-
-### `maxDate`:
-- __Type:__ _arrayOf_(_string_) or _object_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`undefined`_
-- __Description:__ Set the minDate start in the calendar, accept: `moment()` or `new Date()`.
-
-### `disabledDates`:
-- __Type:__ _arrayOf_(_string_) or _object_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`undefined`_
-- __Description:__ Disable the dates.
-
-### `daysOfWeekDisabled`:
-- __Type:__ _array_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`undefined`_
-- __Description:__ Disable a single day in the week, e.g: `[0,6]`.
-
-### `viewMode`:
-- __Type:__ _string_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`days`_
-- __Description:__ Set the viewMode of the calendar, accept: `decades`, `years`, `months`.
-
-### `allowInputToggle`:
-- __Type:__ _boolean_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`false`_
-- __Description:__ It'll show the datetimepicker on the textbox focus. If the icon is empty then it's set true.
-
-### `hasFeedback`:
-- __Type:__ _boolean_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`false`_
-- __Description:__ It show the typical feedback bootstrap style.
-
 ### `bsStyle`:
 - __Type:__ _string_.
 - __isRequired:__ ✘
 - __DefaultValue:__ _`''`_
 - __Description:__ Set the validation color, accept: `success`, `error`, `warning`.
-
-### `getValue`:
-- __Type:__ _function_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`undefined`_
-- __Description:__ Return the date selected.
-
-### `inline`:
-- __Type:__ _boolean_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`false`_
-- __Description:__ View the datetimepicker without the modal view.
-
-### `sideBySide`:
-- __Type:__ _boolean_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`false`_
-- __Description:__ View the datetimepicker without the icon date/time.
-
-### `calendarWeeks`:
-- __Type:__ _boolean_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`false`_
-- __Description:__ It shows the week of the year to the left of first day of the week.
-
-### `toolbarPlacement`:
-- __Type:__ _boolean_.
-- __isRequired:__ ✘
-- __DefaultValue:__ _`false`_
-- __Description:__ It changes the placement of the icon toolbar.
 
 ### `disabled`:
 - __Type:__ _boolean_.
@@ -152,7 +63,74 @@ export default MyRenderer = (props) => (
 - __DefaultValue:__ _`false`_
 - __Description:__ It disabled the input field.
 
-### `tooltips`:
+### `pickerOptions`:
+- __Type:__ _object_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`object containing the following options. Your overrides here will be merged with default values below.`_
+- __Description:__ Options used by underlying [Datetime picker](http://eonasdan.github.io/bootstrap-datetimepicker/Options/)
+
+## `pickerOptions` Defaults:
+### `pickerOptions.locale`:
+- __Type:__ _string_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`en`_
+- __Description:__ Translate the calendar `e.g.: 'it', 'en', 'ru', ...` .
+
+### `pickerOptions.format`:
+- __Type:__ _string_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`moment().format()`_
+- __Description:__ Set the format date view e.g: `D/M/YYYY`.
+
+### `pickerOptions.minDate`:
+- __Type:__ _arrayOf_(_string_) or _object_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`undefined`_
+- __Description:__ Set the minDate start in the calendar, accept: `moment()` or `new Date()`.
+
+### `pickerOptions.maxDate`:
+- __Type:__ _arrayOf_(_string_) or _object_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`undefined`_
+- __Description:__ Set the minDate start in the calendar, accept: `moment()` or `new Date()`.
+
+### `pickerOptions.disabledDates`:
+- __Type:__ _arrayOf_(_string_) or _object_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`undefined`_
+- __Description:__ Disable the dates.
+
+### `pickerOptions.daysOfWeekDisabled`:
+- __Type:__ _array_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`undefined`_
+- __Description:__ Disable a single day in the week, e.g: `[0,6]`.
+
+### `pickerOptions.viewMode`:
+- __Type:__ _string_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`days`_
+- __Description:__ Set the viewMode of the calendar, accept: `decades`, `years`, `months`.
+
+### `pickerOptions.allowInputToggle`:
+- __Type:__ _boolean_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`false`_
+- __Description:__ It'll show the datetimepicker on the textbox focus. If the icon is empty then it's set true.
+
+### `pickerOptions.calendarWeeks`:
+- __Type:__ _boolean_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`false`_
+- __Description:__ It shows the week of the year to the left of first day of the week.
+
+### `pickerOptions.toolbarPlacement`:
+- __Type:__ _boolean_.
+- __isRequired:__ ✘
+- __DefaultValue:__ _`false`_
+- __Description:__ It changes the placement of the icon toolbar.
+
+### `pickerOptions.tooltips`:
 - __Type:__ _object_.
 - __isRequired:__ ✘.
 - __DefaultValue:__

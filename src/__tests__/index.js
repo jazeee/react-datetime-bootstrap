@@ -43,6 +43,10 @@ describe('Static Rendered Markup', () => {
 		const wrapper = render(<DateTime id="id"/>);
 		expect(wrapper.find('.date-time')).to.have.length(1);
 	});
+	it('to have two `.date-time`s', () => {
+		const wrapper = render(<div><DateTime /><DateTime /></div>);
+		expect(wrapper.find('.date-time')).to.have.length(2);
+	});
 });
 
 describe('DateTime', () => {

@@ -1,6 +1,6 @@
 {
   "name": "react-datetime-bootstrap",
-  "version": "1.0.9",
+  "version": "1.1.1",
   "description": "React DateTime picker with Bootstrap",
   "author": "Jaz Singh",
   "license": "MIT",
@@ -13,14 +13,13 @@
     "react-component",
     "react"
   ],
-
   "options": {
     "mocha": "--require scripts/mocha_runner src/**/__tests__/**/*.js"
   },
   "scripts": {
     "prepublish": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
-    "lint": "eslint ./src",
-    "lintfix": "eslint ./src --fix",
+    "lint": "eslint ./src/*.jsx ./src/*.js",
+    "lintfix": "eslint ./src/*.jsx ./src/*.js --fix",
     "testonly": "mocha $npm_package_options_mocha",
     "test": "npm run lint && npm run testonly",
     "test-watch": "npm run testonly -- --watch --watch-extensions js"
@@ -38,12 +37,11 @@
     "enzyme": "^2.2.0",
     "eslint": "^3.19.0",
     "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-react": "^7.0.1",
     "jsdom": "^11.0.0",
     "mocha": "^3.4.2",
     "nodemon": "^1.9.1",
-    "react-addons-test-utils": "^15.0.0",
     "react": "^15.0.0",
+    "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
     "sinon": "^2.3.2"
   },
