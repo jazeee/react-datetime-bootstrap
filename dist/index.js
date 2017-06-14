@@ -184,7 +184,6 @@
 
 				pickerOptions = _extends({}, defaultPickerOptions, pickerOptions);
 				this.datePickerElement = (0, _jquery2.default)('#' + id);
-				console.log(this.datePickerElement); //##############FIXME
 				this.datePickerElement.datetimepicker(pickerOptions).on('dp.change', this.onChange);
 				this.datePicker = this.datePickerElement.data("DateTimePicker");
 				this.updateValue(value);

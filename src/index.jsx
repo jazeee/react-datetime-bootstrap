@@ -101,7 +101,6 @@ class DateTime extends React.Component {
 		let {pickerOptions} = this.props;
 		pickerOptions = {...defaultPickerOptions, ...pickerOptions};
 		this.datePickerElement = $(`#${id}`);
-		console.log(this.datePickerElement); //##############FIXME
 		this.datePickerElement.datetimepicker(pickerOptions).on('dp.change', this.onChange);
 		this.datePicker = this.datePickerElement.data("DateTimePicker");
 		this.updateValue(value);
