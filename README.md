@@ -2,7 +2,8 @@
 This package is a rework of an existing [React Datetime picker](https://github.com/iMasterAle/react-datetimepicker-bootstrap).
 Some changes:
 1. Updated to latest React environment.
-1. moment compatible datetime (or moment) as input (optionally undefined for today's date)
+1. moment compatible datetime (or moment object) as input (optionally undefined for today's date)
+1. Provide a property that allows you to specify any or all underlying [bootstrap-datetimepicker options](http://eonasdan.github.io/bootstrap-datetimepicker/Options/)
 1. ISO 8601 datetime output via `onChange` property.
 1. Also, can get the moment object, input text via second parameters of `onChange`
 
@@ -11,7 +12,7 @@ For development, using [React NPM Boilerplate](https://github.com/juliancwirko/r
 # Notes
 This is a React wrapper surrounding [bootstrap-datetimepicker](https://eonasdan.github.io/bootstrap-datetimepicker/)
 This package depends on jQuery, since the underlying date-time picker is built on jQuery.
-Many options are simply passed to that underlying date-time picker.
+`pickerOptions` are simply passed to that underlying date-time picker.
 
 # Usage
 ## Installation
