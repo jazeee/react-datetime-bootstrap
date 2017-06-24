@@ -113,9 +113,11 @@ class DateTime extends React.Component {
 	}
 	updateValue = (value) => {
 		const {pickerOptions: {format}} = this.props;
-		if (value !== undefined) {
+		if (value !== undefined && value !== null) {
 			this.datePicker.date(value);
 			this.textInputElement.value = moment(value).format(format);
+		} else {
+			this.textInputElement.value = "";
 		}
 	}
 	componentWillUnmount = () => {

@@ -145,9 +145,11 @@
 			}, _this.updateValue = function (value) {
 				var format = _this.props.pickerOptions.format;
 
-				if (value !== undefined) {
+				if (value !== undefined && value !== null) {
 					_this.datePicker.date(value);
 					_this.textInputElement.value = (0, _moment2.default)(value).format(format);
+				} else {
+					_this.textInputElement.value = "";
 				}
 			}, _this.componentWillUnmount = function () {
 				if (_this.datePicker) {

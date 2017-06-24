@@ -18,9 +18,13 @@ This package depends on jQuery, since the underlying date-time picker is built o
 ## Installation
 
 Using [npm](https://npmjs.com):
-
 ```
 $ npm install --save react-datetimepicker-bootstrap
+```
+
+This depends on Bootstrap css, so:
+```
+$ npm install --save bootstrap
 ```
 
 ## Date and Time
@@ -28,6 +32,12 @@ Since date time is a complex topic, this package takes a momentjs compatible for
 It uses momentjs to handle date time.
 
 ## Example usage:
+Somewhere in your app, you will need to import bootstrap css.
+For example, add the following to the top of `App.css`
+```css
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+```
+Bootstrap also provides `sass` or `less` files, so import as appropriate.
 
 ```js
 import DateTime from 'react-datetime-bootstrap';
