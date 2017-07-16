@@ -40,7 +40,7 @@ For example, add the following to the top of `App.css`
 Bootstrap also provides `sass` or `less` files, so import as appropriate.
 
 ```js
-import DateTime from 'react-datetime-bootstrap';
+import { DateTime } from 'react-datetime-bootstrap';
 
 export default const MyRenderer = (props) => (
 	<div>

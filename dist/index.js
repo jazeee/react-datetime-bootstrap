@@ -16,6 +16,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+	exports.DateTime = undefined;
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -145,7 +146,7 @@
 			}, _this.updateValue = function (value) {
 				var format = _this.props.pickerOptions.format;
 
-				if (value !== undefined && value !== null) {
+				if (value !== undefined && value !== null && value.trim().length) {
 					_this.datePicker.date(value);
 					_this.textInputElement.value = (0, _moment2.default)(value).format(format);
 				} else {
@@ -273,5 +274,5 @@
 	};
 	;
 
-	exports.default = DateTime;
+	exports.DateTime = DateTime;
 });
