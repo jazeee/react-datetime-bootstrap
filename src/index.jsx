@@ -113,7 +113,7 @@ class DateTime extends React.Component {
 	}
 	updateValue = (value) => {
 		const {pickerOptions: {format}} = this.props;
-		if (value !== undefined && value !== null) {
+		if (value !== undefined && value !== null && value.trim().length) {
 			this.datePicker.date(value);
 			this.textInputElement.value = moment(value).format(format);
 		} else {
@@ -168,4 +168,4 @@ class DateTime extends React.Component {
 	}
 };
 
-export default DateTime;
+export {DateTime};
