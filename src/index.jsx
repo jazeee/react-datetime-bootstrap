@@ -133,7 +133,7 @@ class DateTime extends React.Component {
 	}
 	onChange = (event) => {
 		const {date} = event;
-		const isoDate = date.toISOString();
+		const isoDate = (date && date.toISOString && date.toISOString()) || '';
 		return this.props.onChange(isoDate, {value: this.textInputElement.value, date, isoDate});
 	}
 	selectTextElementContent = (event) => {

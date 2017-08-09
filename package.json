@@ -1,6 +1,6 @@
 {
   "name": "react-datetime-bootstrap",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "React DateTime picker with Bootstrap",
   "author": "Jaz Singh",
   "license": "MIT",
@@ -13,6 +13,10 @@
     "react-component",
     "react"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jazeee/react-datetime-bootstrap.git"
+  },
   "options": {
     "mocha": "--require scripts/mocha_runner src/**/__tests__/**/*.js"
   },
@@ -34,23 +38,23 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
     "chai": "^4.0.2",
-    "enzyme": "^2.2.0",
-    "eslint": "^3.19.0",
+    "enzyme": "^2.9.1",
+    "eslint": "^4.4.1",
     "eslint-plugin-babel": "^4.1.1",
     "jsdom": "^11.0.0",
     "mocha": "^3.4.2",
     "nodemon": "^1.9.1",
-    "react": "^15.0.0",
-    "react-addons-test-utils": "^15.0.0",
-    "react-dom": "^15.0.0",
-    "sinon": "^2.3.2"
+    "react": "^15.6.0",
+    "react-addons-test-utils": "^15.6.0",
+    "react-dom": "^15.6.0",
+    "sinon": "^3.1.0"
   },
   "peerDependencies": {
     "react": "~0.14.8 || ^15.0.0",
     "react-dom": "~0.14.8 || ^15.0.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.6.1",
+    "babel-runtime": "^6.25.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "jquery": "^3.2.1",
     "moment": "^2.18.1",
