@@ -164,7 +164,7 @@
 			}, _this.onChange = function (event) {
 				var date = event.date;
 
-				var isoDate = date.toISOString();
+				var isoDate = date && date.toISOString && date.toISOString() || '';
 				return _this.props.onChange(isoDate, { value: _this.textInputElement.value, date: date, isoDate: isoDate });
 			}, _this.selectTextElementContent = function (event) {
 				setTimeout(event.target.select.bind(event.target));
