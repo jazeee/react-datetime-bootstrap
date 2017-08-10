@@ -197,12 +197,13 @@
 				var _props2 = this.props,
 				    name = _props2.name,
 				    placeholder = _props2.placeholder,
-				    helpBlock = _props2.helpBlock,
 				    disabled = _props2.disabled,
 				    required = _props2.required,
+				    readOnly = _props2.readOnly,
 				    bsStyle = _props2.bsStyle;
 				var id = this.id;
 
+				var bsClass = bsStyle ? 'has-' + bsStyle : '';
 				// Input needs to be inside a position relative element for datetimepicker to work.
 				return _react2.default.createElement(
 					'div',
@@ -210,11 +211,12 @@
 					_react2.default.createElement('input', {
 						id: id,
 						ref: this.setRef,
-						className: 'has-' + bsStyle + ' form-control date-time',
+						className: bsClass + ' form-control date-time',
 						type: 'text',
 						name: name,
 						required: required,
 						disabled: disabled,
+						readOnly: readOnly,
 						placeholder: placeholder,
 						onFocus: this.selectTextElementContent
 					})
@@ -227,11 +229,11 @@
 
 	DateTime.propTypes = {
 		placeholder: _propTypes2.default.string,
-		hasFeedback: _propTypes2.default.bool,
 		bsStyle: _propTypes2.default.oneOf(['', 'success', 'warning', 'error']),
 		onChange: _propTypes2.default.func,
 		disabled: _propTypes2.default.bool,
-		helpBlock: _propTypes2.default.any,
+		required: _propTypes2.default.bool,
+		readOnly: _propTypes2.default.bool,
 		value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
 
 		pickerOptions: _propTypes2.default.shape({
@@ -268,7 +270,6 @@
 	DateTime.nextId = 0;
 	DateTime.defaultProps = {
 		id: "react-datetime-bootstrap",
-		hasFeedback: false,
 		onChange: console.log,
 		pickerOptions: _extends({}, defaultPickerOptions)
 	};

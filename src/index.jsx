@@ -36,13 +36,13 @@ let nextId = 0;
 class DateTime extends React.Component {
 	static propTypes = {
 		placeholder: PropTypes.string,
-		hasFeedback: PropTypes.bool,
 		bsStyle: PropTypes.oneOf([
 			'', 'success', 'warning', 'error',
 		]),
 		onChange: PropTypes.func,
 		disabled: PropTypes.bool,
-		helpBlock: PropTypes.any,
+		required: PropTypes.bool,
+		readOnly: PropTypes.bool,
 		value: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.object,
@@ -88,7 +88,6 @@ class DateTime extends React.Component {
 	static nextId = 0;
 	static defaultProps = {
 		id: "react-datetime-bootstrap",
-		hasFeedback: false,
 		onChange: console.log,
 		pickerOptions: {...defaultPickerOptions},
 	}
@@ -143,23 +142,25 @@ class DateTime extends React.Component {
 		const {
 			name,
 			placeholder,
-			helpBlock,
 			disabled,
 			required,
+			readOnly,
 			bsStyle,
 		} = this.props;
 		const {id} = this;
+		const bsClass = bsStyle ? `has-${bsStyle}` : '';
 		// Input needs to be inside a position relative element for datetimepicker to work.
 		return (
 			<div style={{position: "relative"}}>
 				<input
 					id={id}
 					ref={this.setRef}
-					className={`has-${bsStyle} form-control date-time`}
+					className={`${bsClass} form-control date-time`}
 					type="text"
 					name={name}
 					required={required}
 					disabled={disabled}
+					readOnly={readOnly}
 					placeholder={placeholder}
 					onFocus={this.selectTextElementContent}
 				/>
