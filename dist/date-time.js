@@ -8,7 +8,7 @@
 			exports: {}
 		};
 		factory(mod.exports, global.react, global.propTypes, global.jquery, global.moment, global.bootstrapDatetimepicker);
-		global.index = mod.exports;
+		global.dateTime = mod.exports;
 	}
 })(this, function (exports, _react, _propTypes, _jquery, _moment) {
 	'use strict';
@@ -150,7 +150,7 @@
 					_this.datePicker.date(value);
 					_this.textInputElement.value = (0, _moment2.default)(value).format(format);
 				} else {
-					_this.textInputElement.value = "";
+					_this.textInputElement && (_this.textInputElement.value = "");
 				}
 			}, _this.componentWillUnmount = function () {
 				if (_this.datePicker) {

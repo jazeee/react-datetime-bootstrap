@@ -116,7 +116,7 @@ class DateTime extends React.Component {
 			this.datePicker.date(value);
 			this.textInputElement.value = moment(value).format(format);
 		} else {
-			this.textInputElement.value = "";
+			this.textInputElement && (this.textInputElement.value = "");
 		}
 	}
 	componentWillUnmount = () => {

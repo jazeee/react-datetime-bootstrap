@@ -4,7 +4,7 @@ import {shallow, mount, render} from 'enzyme';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {DateTime} from '../index';
+import {DateTime} from '../date-time.jsx';
 
 // Demo tests
 
