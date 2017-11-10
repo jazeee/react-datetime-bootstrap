@@ -207,7 +207,7 @@
 				// Input needs to be inside a position relative element for datetimepicker to work.
 				return _react2.default.createElement(
 					'div',
-					{ style: { position: "relative" } },
+					{ style: { position: "relative" }, id: this.props.id },
 					_react2.default.createElement('input', {
 						id: id,
 						ref: this.setRef,
@@ -228,6 +228,7 @@
 	}(_react2.default.Component);
 
 	DateTime.propTypes = {
+		id: _propTypes2.default.string,
 		placeholder: _propTypes2.default.string,
 		bsStyle: _propTypes2.default.oneOf(['', 'success', 'warning', 'error']),
 		onChange: _propTypes2.default.func,
