@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import $ from 'jquery'
 import 'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'
 import moment from 'moment';
+import uuid from 'uuid';
+const uuidV4 = uuid.v4;
 
 const defaultPickerOptions = {
 	viewMode: 'days',
@@ -32,7 +34,6 @@ const defaultPickerOptions = {
 	focusOnShow: true,
 };
 
-let nextId = 0;
 class DateTime extends React.Component {
 	static propTypes = {
 		id: PropTypes.string,
@@ -86,14 +87,14 @@ class DateTime extends React.Component {
 			focusOnShow: PropTypes.bool,
 		}),
 	}
-	static nextId = 0;
 	static defaultProps = {
 		id: "react-datetime-bootstrap",
 		onChange: console.log,
 		pickerOptions: {...defaultPickerOptions},
 	}
 	componentWillMount() {
-		this.id = DateTime.nextId++;
+		const {id: componentId = "date-time-picker"} = this.props;
+		this.id = `${componentId}-${uuidV4()}`;
 	}
 	componentDidMount() {
 		const {value, onChange} = this.props;
@@ -147,12 +148,13 @@ class DateTime extends React.Component {
 			required,
 			readOnly,
 			bsStyle,
+			id: componentId = "date-time-picker",
 		} = this.props;
 		const {id} = this;
 		const bsClass = bsStyle ? `has-${bsStyle}` : '';
 		// Input needs to be inside a position relative element for datetimepicker to work.
 		return (
-			<div style={{position: "relative"}} id={this.props.id}>
+			<div style={{position: "relative"}} id={componentId}>
 				<input
 					id={id}
 					ref={this.setRef}

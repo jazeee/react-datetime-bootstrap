@@ -1,16 +1,16 @@
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
-		define(['exports', 'react', 'prop-types', 'jquery', 'moment', 'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'], factory);
+		define(['exports', 'react', 'prop-types', 'jquery', 'moment', 'uuid', 'eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'], factory);
 	} else if (typeof exports !== "undefined") {
-		factory(exports, require('react'), require('prop-types'), require('jquery'), require('moment'), require('eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'));
+		factory(exports, require('react'), require('prop-types'), require('jquery'), require('moment'), require('uuid'), require('eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js'));
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod.exports, global.react, global.propTypes, global.jquery, global.moment, global.bootstrapDatetimepicker);
+		factory(mod.exports, global.react, global.propTypes, global.jquery, global.moment, global.uuid, global.bootstrapDatetimepicker);
 		global.dateTime = mod.exports;
 	}
-})(this, function (exports, _react, _propTypes, _jquery, _moment) {
+})(this, function (exports, _react, _propTypes, _jquery, _moment, _uuid) {
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -25,6 +25,8 @@
 	var _jquery2 = _interopRequireDefault(_jquery);
 
 	var _moment2 = _interopRequireDefault(_moment);
+
+	var _uuid2 = _interopRequireDefault(_uuid);
 
 	function _interopRequireDefault(obj) {
 		return obj && obj.__esModule ? obj : {
@@ -94,6 +96,8 @@
 		if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
+	var uuidV4 = _uuid2.default.v4;
+
 	var defaultPickerOptions = {
 		viewMode: 'days',
 		allowInputToggle: true,
@@ -120,8 +124,6 @@
 		widgetPositioning: { horizontal: 'auto', vertical: 'bottom' },
 		focusOnShow: true
 	};
-
-	var nextId = 0;
 
 	var DateTime = function (_React$Component) {
 		_inherits(DateTime, _React$Component);
@@ -174,7 +176,10 @@
 		_createClass(DateTime, [{
 			key: 'componentWillMount',
 			value: function componentWillMount() {
-				this.id = DateTime.nextId++;
+				var _props$id = this.props.id,
+				    componentId = _props$id === undefined ? "date-time-picker" : _props$id;
+
+				this.id = componentId + '-' + uuidV4();
 			}
 		}, {
 			key: 'componentDidMount',
@@ -200,14 +205,16 @@
 				    disabled = _props2.disabled,
 				    required = _props2.required,
 				    readOnly = _props2.readOnly,
-				    bsStyle = _props2.bsStyle;
+				    bsStyle = _props2.bsStyle,
+				    _props2$id = _props2.id,
+				    componentId = _props2$id === undefined ? "date-time-picker" : _props2$id;
 				var id = this.id;
 
 				var bsClass = bsStyle ? 'has-' + bsStyle : '';
 				// Input needs to be inside a position relative element for datetimepicker to work.
 				return _react2.default.createElement(
 					'div',
-					{ style: { position: "relative" }, id: this.props.id },
+					{ style: { position: "relative" }, id: componentId },
 					_react2.default.createElement('input', {
 						id: id,
 						ref: this.setRef,
@@ -268,7 +275,6 @@
 			focusOnShow: _propTypes2.default.bool
 		})
 	};
-	DateTime.nextId = 0;
 	DateTime.defaultProps = {
 		id: "react-datetime-bootstrap",
 		onChange: console.log,
