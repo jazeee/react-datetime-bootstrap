@@ -47,7 +47,7 @@ class DateTime extends React.Component {
 		readOnly: PropTypes.bool,
 		value: PropTypes.oneOfType([
 			PropTypes.string,
-			PropTypes.object,
+			PropTypes.object, //Accept a moment object
 		]),
 
 		pickerOptions: PropTypes.shape({
@@ -113,13 +113,21 @@ class DateTime extends React.Component {
 		}
 	}
 	updateValue = (value) => {
-		const {pickerOptions: {format}} = this.props;
-		if (value !== undefined && value !== null && value.trim().length) {
-			this.datePicker.date(value);
-			this.textInputElement.value = moment(value).format(format);
-		} else {
-			this.textInputElement && (this.textInputElement.value = "");
+		if (!this.datePicker) {
+			return;
 		}
+		const {pickerOptions: {format}} = this.props;
+		if (value !== undefined && value !== null) {
+			if (moment.isMoment(value) || value.trim().length) {
+				this.datePicker.date(value);
+				if (!moment.isMoment(value)) {
+					value = moment(value);
+				}
+				this.textInputElement.value = value.format(format);
+				return;
+			}
+		}
+		this.textInputElement && (this.textInputElement.value = "");
 	}
 	componentWillUnmount = () => {
 		if (this.datePicker) {

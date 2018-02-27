@@ -146,14 +146,22 @@
 					_this.updateValue(value);
 				}
 			}, _this.updateValue = function (value) {
+				if (!_this.datePicker) {
+					return;
+				}
 				var format = _this.props.pickerOptions.format;
 
-				if (value !== undefined && value !== null && value.trim().length) {
-					_this.datePicker.date(value);
-					_this.textInputElement.value = (0, _moment2.default)(value).format(format);
-				} else {
-					_this.textInputElement && (_this.textInputElement.value = "");
+				if (value !== undefined && value !== null) {
+					if (_moment2.default.isMoment(value) || value.trim().length) {
+						_this.datePicker.date(value);
+						if (!_moment2.default.isMoment(value)) {
+							value = (0, _moment2.default)(value);
+						}
+						_this.textInputElement.value = value.format(format);
+						return;
+					}
 				}
+				_this.textInputElement && (_this.textInputElement.value = "");
 			}, _this.componentWillUnmount = function () {
 				if (_this.datePicker) {
 					_this.datePicker.destroy();
@@ -242,7 +250,8 @@
 		disabled: _propTypes2.default.bool,
 		required: _propTypes2.default.bool,
 		readOnly: _propTypes2.default.bool,
-		value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object]),
+		value: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.object] //Accept a moment object
+		),
 
 		pickerOptions: _propTypes2.default.shape({
 			format: _propTypes2.default.string,
