@@ -286,7 +286,9 @@
 	};
 	DateTime.defaultProps = {
 		id: "react-datetime-bootstrap",
-		onChange: console.log,
+		onChange: function onChange() {
+			return null;
+		},
 		pickerOptions: _extends({}, defaultPickerOptions)
 	};
 	;
