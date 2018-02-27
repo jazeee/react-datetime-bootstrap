@@ -3,6 +3,7 @@ import React from 'react';
 import {shallow, mount, render} from 'enzyme';
 import {expect} from 'chai';
 import sinon from 'sinon';
+import moment from 'moment';
 
 import {DateTime} from '../date-time.jsx';
 
@@ -34,6 +35,11 @@ describe('Full DOM Rendering', () => {
 		DateTime.prototype.componentDidMount.restore();
 	});
 
+	it('accepts moment based value', () => {
+		const value = moment('2018-04-20T16:20:00Z');
+		// FIXME - this doesn't test the full component lifecycle, since jQuery hasn't triggered its DOM updates.
+		const wrapper = mount(<DateTime value={value}/>);
+	});
 });
 
 // Static Rendered Markup
