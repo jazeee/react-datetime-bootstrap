@@ -89,7 +89,7 @@ class DateTime extends React.Component {
 	}
 	static defaultProps = {
 		id: "react-datetime-bootstrap",
-		onChange: console.log,
+		onChange: () => null,
 		pickerOptions: {...defaultPickerOptions},
 	}
 	componentWillMount() {
