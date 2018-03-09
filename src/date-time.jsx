@@ -93,6 +93,9 @@ class DateTime extends React.Component {
 		onChange: () => null,
 		pickerOptions: {...defaultPickerOptions},
 	}
+	// The dateTimePicker internals use jquery and events to notify onChange. This triggers when we update props.
+	// Use `arePropsUpdating` to determine when to notify parent.
+	arePropsUpdating = false;
 	componentWillMount() {
 		const {id: componentId = "date-time-picker"} = this.props;
 		this.id = `${componentId}-${uuidV4()}`;
@@ -103,14 +106,17 @@ class DateTime extends React.Component {
 		let {pickerOptions} = this.props;
 		pickerOptions = {...defaultPickerOptions, ...pickerOptions};
 		this.datePickerElement = $(`#${id}`);
-		this.datePickerElement.datetimepicker(pickerOptions).on('dp.change', this.onChange);
+		this.dateTimePicker = this.datePickerElement.datetimepicker(pickerOptions);
 		this.datePicker = this.datePickerElement.data("DateTimePicker");
 		this.updateValue(value);
+		this.dateTimePicker.on('dp.change', this.onChange);
 	}
-	componentWillUpdate = (nextProps) => {
-		const {value} = nextProps;
+	componentDidUpdate = (prevProps) => {
+		const {value} = prevProps;
 		if (value !== this.props.value) {
+			this.arePropsUpdating = true;
 			this.updateValue(value);
+			this.arePropsUpdating = false;
 		}
 	}
 	updateValue = (value) => {
@@ -142,6 +148,9 @@ class DateTime extends React.Component {
 		this.textInputElement = ref;
 	}
 	onChange = (event) => {
+		if (this.arePropsUpdating) {
+			return;
+		}
 		const {date} = event;
 		const isoDate = (date && date.toISOString && date.toISOString()) || '';
 		return this.props.onChange(isoDate, {value: this.textInputElement.value, date, isoDate});
