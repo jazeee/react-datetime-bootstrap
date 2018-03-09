@@ -139,11 +139,13 @@
 				args[_key] = arguments[_key];
 			}
 
-			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.componentWillUpdate = function (nextProps) {
-				var value = nextProps.value;
+			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.arePropsUpdating = false, _this.componentDidUpdate = function (prevProps) {
+				var value = prevProps.value;
 
 				if (value !== _this.props.value) {
+					_this.arePropsUpdating = true;
 					_this.updateValue(value);
+					_this.arePropsUpdating = false;
 				}
 			}, _this.updateValue = function (value) {
 				if (!_this.datePicker) {
@@ -172,6 +174,9 @@
 			}, _this.setRef = function (ref) {
 				_this.textInputElement = ref;
 			}, _this.onChange = function (event) {
+				if (_this.arePropsUpdating) {
+					return;
+				}
 				var date = event.date;
 
 				var isoDate = date && date.toISOString && date.toISOString() || '';
@@ -200,9 +205,10 @@
 
 				pickerOptions = _extends({}, defaultPickerOptions, pickerOptions);
 				this.datePickerElement = (0, _jquery2.default)('#' + id);
-				this.datePickerElement.datetimepicker(pickerOptions).on('dp.change', this.onChange);
+				this.dateTimePicker = this.datePickerElement.datetimepicker(pickerOptions);
 				this.datePicker = this.datePickerElement.data("DateTimePicker");
 				this.updateValue(value);
+				this.dateTimePicker.on('dp.change', this.onChange);
 			}
 		}, {
 			key: 'render',
@@ -297,6 +303,8 @@
 			return null;
 		},
 		pickerOptions: _extends({}, defaultPickerOptions)
+		// The dateTimePicker internals use jquery and events to notify onChange. This triggers when we update props.
+		// Use `arePropsUpdating` to determine when to notify parent.
 	};
 	;
 
