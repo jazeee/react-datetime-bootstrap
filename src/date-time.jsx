@@ -37,6 +37,7 @@ const defaultPickerOptions = {
 class DateTime extends React.Component {
 	static propTypes = {
 		id: PropTypes.string,
+		className: PropTypes.string,
 		placeholder: PropTypes.string,
 		bsStyle: PropTypes.oneOf([
 			'', 'success', 'warning', 'error',
@@ -157,12 +158,17 @@ class DateTime extends React.Component {
 			readOnly,
 			bsStyle,
 			id: componentId = "date-time-picker",
+			className = "",
 		} = this.props;
 		const {id} = this;
 		const bsClass = bsStyle ? `has-${bsStyle}` : '';
 		// Input needs to be inside a position relative element for datetimepicker to work.
 		return (
-			<div style={{position: "relative"}} id={componentId}>
+			<div
+				style={{position: "relative"}}
+				id={componentId}
+				className={className}
+			>
 				<input
 					id={id}
 					ref={this.setRef}
