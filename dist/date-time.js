@@ -215,14 +215,20 @@
 				    readOnly = _props2.readOnly,
 				    bsStyle = _props2.bsStyle,
 				    _props2$id = _props2.id,
-				    componentId = _props2$id === undefined ? "date-time-picker" : _props2$id;
+				    componentId = _props2$id === undefined ? "date-time-picker" : _props2$id,
+				    _props2$className = _props2.className,
+				    className = _props2$className === undefined ? "" : _props2$className;
 				var id = this.id;
 
 				var bsClass = bsStyle ? 'has-' + bsStyle : '';
 				// Input needs to be inside a position relative element for datetimepicker to work.
 				return _react2.default.createElement(
 					'div',
-					{ style: { position: "relative" }, id: componentId },
+					{
+						style: { position: "relative" },
+						id: componentId,
+						className: className
+					},
 					_react2.default.createElement('input', {
 						id: id,
 						ref: this.setRef,
@@ -244,6 +250,7 @@
 
 	DateTime.propTypes = {
 		id: _propTypes2.default.string,
+		className: _propTypes2.default.string,
 		placeholder: _propTypes2.default.string,
 		bsStyle: _propTypes2.default.oneOf(['', 'success', 'warning', 'error']),
 		onChange: _propTypes2.default.func,
