@@ -112,8 +112,8 @@ class DateTime extends React.Component {
 		this.dateTimePicker.on('dp.change', this.onChange);
 	}
 	componentDidUpdate = (prevProps) => {
-		const {value} = prevProps;
-		if (value !== this.props.value) {
+		const {value} = this.props;
+		if (prevProps.value !== value) {
 			this.arePropsUpdating = true;
 			this.updateValue(value);
 			this.arePropsUpdating = false;

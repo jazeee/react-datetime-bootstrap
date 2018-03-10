@@ -140,9 +140,9 @@
 			}
 
 			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DateTime.__proto__ || Object.getPrototypeOf(DateTime)).call.apply(_ref, [this].concat(args))), _this), _this.arePropsUpdating = false, _this.componentDidUpdate = function (prevProps) {
-				var value = prevProps.value;
+				var value = _this.props.value;
 
-				if (value !== _this.props.value) {
+				if (prevProps.value !== value) {
 					_this.arePropsUpdating = true;
 					_this.updateValue(value);
 					_this.arePropsUpdating = false;
