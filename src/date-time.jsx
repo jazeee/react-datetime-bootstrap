@@ -135,6 +135,7 @@ class DateTime extends React.Component {
 			}
 		}
 		this.textInputElement && (this.textInputElement.value = "");
+		this.datePicker.clear();
 	}
 	componentWillUnmount = () => {
 		if (this.datePicker) {
