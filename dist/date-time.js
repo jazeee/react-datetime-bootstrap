@@ -191,7 +191,7 @@
 			key: 'componentWillMount',
 			value: function componentWillMount() {
 				var _props$id = this.props.id,
-					componentId = _props$id === undefined ? "date-time-picker" : _props$id;
+				    componentId = _props$id === undefined ? "date-time-picker" : _props$id;
 
 				this.id = componentId + '-' + uuidV4();
 			}
@@ -199,8 +199,8 @@
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				var _props = this.props,
-					value = _props.value,
-					onChange = _props.onChange;
+				    value = _props.value,
+				    onChange = _props.onChange;
 				var id = this.id;
 				var pickerOptions = this.props.pickerOptions;
 
@@ -215,16 +215,16 @@
 			key: 'render',
 			value: function render() {
 				var _props2 = this.props,
-					name = _props2.name,
-					placeholder = _props2.placeholder,
-					disabled = _props2.disabled,
-					required = _props2.required,
-					readOnly = _props2.readOnly,
-					bsStyle = _props2.bsStyle,
-					_props2$id = _props2.id,
-					componentId = _props2$id === undefined ? "date-time-picker" : _props2$id,
-					_props2$className = _props2.className,
-					className = _props2$className === undefined ? "" : _props2$className;
+				    name = _props2.name,
+				    placeholder = _props2.placeholder,
+				    disabled = _props2.disabled,
+				    required = _props2.required,
+				    readOnly = _props2.readOnly,
+				    bsStyle = _props2.bsStyle,
+				    _props2$id = _props2.id,
+				    componentId = _props2$id === undefined ? "date-time-picker" : _props2$id,
+				    _props2$className = _props2.className,
+				    className = _props2$className === undefined ? "" : _props2$className;
 				var id = this.id;
 
 				var bsClass = bsStyle ? 'has-' + bsStyle : '';
