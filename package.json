@@ -1,6 +1,6 @@
 {
   "name": "react-datetime-bootstrap",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "React DateTime picker with Bootstrap",
   "author": "Jaz Singh",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "mocha": "--require scripts/mocha_runner src/**/__tests__/**/*.js"
   },
   "scripts": {
-    "prepublish": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
+    "prepare": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
     "lint": "eslint ./src/*.jsx ./src/*.js",
     "lintfix": "eslint ./src/*.jsx ./src/*.js --fix",
     "testonly": "mocha $npm_package_options_mocha",
