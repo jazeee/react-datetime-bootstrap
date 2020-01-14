@@ -19,7 +19,7 @@ This package depends on jQuery, since the underlying date-time picker is built o
 
 Using [npm](https://npmjs.com):
 ```
-$ npm install --save react-datetimepicker-bootstrap
+$ npm install --save react-datetime-bootstrap
 ```
 
 This depends on Bootstrap css, so:
