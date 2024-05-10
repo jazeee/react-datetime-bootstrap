@@ -1,4 +1,8 @@
 # Summary
+
+** THIS PACKAGE IS UNMAINTAINED AND DEPRECATED **
+** THIS IS MARKED TO BE DELETED **
+
 This package is a rework of an existing [React Datetime picker](https://github.com/iMasterAle/react-datetimepicker-bootstrap).
 Some changes:
 1. Updated to latest React environment.
